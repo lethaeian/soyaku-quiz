@@ -9,107 +9,44 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=M+PLUS+1+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --ink:#163049;
-  --ink-soft:#5C7183;
-  --paper:#F2F8FC;
-  --card:#FFFFFF;
-  --blue:#2E7FC2;
-  --blue-deep:#1B5C97;
-  --blue-pale:#DCEBF7;
-  --mint:#3FB795;
-  --mint-pale:#E2F5EE;
-  --coral:#EE6B85;
-  --coral-pale:#FDE8ED;
-  --sun:#FFC63F;
-  --line:#D9E6F0;
-  --r:20px;
-}
+:root{--ink:#163049;--ink-soft:#5C7183;--paper:#F2F8FC;--card:#FFFFFF;--blue:#2E7FC2;--blue-deep:#1B5C97;--blue-pale:#DCEBF7;--mint:#3FB795;--mint-pale:#E2F5EE;--coral:#EE6B85;--coral-pale:#FDE8ED;--sun:#FFC63F;--line:#D9E6F0;--r:20px;}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{
-  font-family:"Zen Maru Gothic",system-ui,sans-serif;
-  color:var(--ink);
-  background:var(--paper);
-  background-image:
-    radial-gradient(520px 380px at 12% -8%, #E6F2FB 0%, rgba(230,242,251,0) 70%),
-    radial-gradient(420px 320px at 92% 4%, #FFF6DF 0%, rgba(255,246,223,0) 70%),
-    radial-gradient(600px 420px at 50% 108%, #E8F6F1 0%, rgba(232,246,241,0) 70%);
-  background-attachment:fixed;
-  min-height:100dvh;
-  line-height:1.75;
-  -webkit-font-smoothing:antialiased;
-}
+body{font-family:"Zen Maru Gothic",system-ui,sans-serif;color:var(--ink);background:var(--paper);background-image:radial-gradient(520px 380px at 12% -8%, #E6F2FB 0%, rgba(230,242,251,0) 70%),radial-gradient(420px 320px at 92% 4%, #FFF6DF 0%, rgba(255,246,223,0) 70%),radial-gradient(600px 420px at 50% 108%, #E8F6F1 0%, rgba(232,246,241,0) 70%);background-attachment:fixed;min-height:100dvh;line-height:1.75;-webkit-font-smoothing:antialiased;}
 .wrap{width:100%;max-width:480px;margin:0 auto;padding:20px 18px 56px}
 rt{font-size:.5em;font-weight:400;color:var(--ink-soft);letter-spacing:.02em}
 body.no-ruby rt{display:none}
-.eyebrow{
-  font-family:"M PLUS 1 Code",monospace;font-size:11px;font-weight:500;
-  letter-spacing:.18em;color:var(--blue);text-transform:uppercase;
-}
-.card{
-  background:var(--card);border:2px solid var(--line);border-radius:var(--r);
-  padding:22px 20px;box-shadow:0 10px 24px -18px rgba(22,48,73,.5);
-}
-.btn{
-  display:block;width:100%;border:none;border-radius:16px;cursor:pointer;
-  font-family:inherit;font-weight:700;font-size:17px;padding:16px;
-  background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue-deep);
-  transition:transform .12s ease,box-shadow .12s ease;
-}
+.eyebrow{font-family:"M PLUS 1 Code",monospace;font-size:11px;font-weight:500;letter-spacing:.18em;color:var(--blue);text-transform:uppercase;}
+.card{background:var(--card);border:2px solid var(--line);border-radius:var(--r);padding:22px 20px;box-shadow:0 10px 24px -18px rgba(22,48,73,.5);}
+.btn{display:block;width:100%;border:none;border-radius:16px;cursor:pointer;font-family:inherit;font-weight:700;font-size:17px;padding:16px;background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue-deep);transition:transform .12s ease,box-shadow .12s ease;}
 .btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--blue-deep)}
 .btn.ghost{background:transparent;color:var(--blue);box-shadow:none;border:2px solid var(--blue-pale);font-size:15px;padding:13px}
 :focus-visible{outline:3px solid var(--sun);outline-offset:3px}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px;min-height:34px}
-.chip{
-  font-family:"M PLUS 1 Code",monospace;font-size:11.5px;letter-spacing:.06em;
-  background:#fff;border:2px solid var(--line);color:var(--ink-soft);
-  border-radius:999px;padding:5px 12px;cursor:pointer;
-}
+.chip{font-family:"M PLUS 1 Code",monospace;font-size:11.5px;letter-spacing:.06em;background:#fff;border:2px solid var(--line);color:var(--ink-soft);border-radius:999px;padding:5px 12px;cursor:pointer;}
 .chip[aria-pressed="true"]{border-color:var(--blue);color:var(--blue)}
 .pipe{display:flex;align-items:flex-start;gap:0;margin:0 0 24px}
 .stage{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;gap:6px}
-.stage::before{
-  content:"";position:absolute;top:19px;left:-50%;width:100%;height:3px;
-  background:var(--line);border-radius:2px;z-index:0;
-}
+.stage::before{content:"";position:absolute;top:19px;left:-50%;width:100%;height:3px;background:var(--line);border-radius:2px;z-index:0;}
 .stage:first-child::before{display:none}
 .stage.done::before{background:var(--blue-pale)}
-.dot{
-  position:relative;z-index:1;width:38px;height:38px;border-radius:50%;
-  background:#fff;border:2.5px solid var(--line);color:#B7C9D6;
-  display:grid;place-items:center;transition:all .3s cubic-bezier(.34,1.4,.5,1);
-}
+.dot{position:relative;z-index:1;width:38px;height:38px;border-radius:50%;background:#fff;border:2.5px solid var(--line);color:#B7C9D6;display:grid;place-items:center;transition:all .3s cubic-bezier(.34,1.4,.5,1);}
 .dot svg{width:20px;height:20px}
 .stage.now .dot{border-color:var(--blue);color:var(--blue);transform:scale(1.12);box-shadow:0 0 0 5px rgba(46,127,194,.13)}
 .stage.hit .dot{background:var(--mint);border-color:var(--mint);color:#fff}
 .stage.miss .dot{background:var(--coral);border-color:var(--coral);color:#fff}
 .stage span{font-size:10.5px;color:var(--ink-soft);letter-spacing:.02em;line-height:1.3;text-align:center}
 .stage.now span{color:var(--blue);font-weight:700}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;
-  border-radius:999px;padding:7px 18px;font-weight:700;font-size:15px;
-  box-shadow:0 4px 0 var(--blue-deep);
-}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;border-radius:999px;padding:7px 18px;font-weight:700;font-size:15px;box-shadow:0 4px 0 var(--blue-deep);}
 h1{font-size:clamp(27px,8vw,34px);font-weight:900;line-height:1.5;margin:18px 0 14px;letter-spacing:.01em}
-.mark-line{
-  background:linear-gradient(transparent 62%,var(--sun) 62%,var(--sun) 88%,transparent 88%);
-}
+.mark-line{background:linear-gradient(transparent 62%,var(--sun) 62%,var(--sun) 88%,transparent 88%);}
 .lead{color:var(--ink-soft);font-size:15px;margin-bottom:26px}
 .meta{font-family:"M PLUS 1 Code",monospace;font-size:12px;color:var(--ink-soft);text-align:center;margin-top:12px;letter-spacing:.08em}
 .sparkle{color:var(--sun)}
-.qnum{
-  display:inline-block;font-family:"M PLUS 1 Code",monospace;font-size:12px;font-weight:500;
-  color:#fff;background:var(--blue);border-radius:999px;padding:3px 13px;letter-spacing:.08em;margin-bottom:14px;
-}
+.qnum{display:inline-block;font-family:"M PLUS 1 Code",monospace;font-size:12px;font-weight:500;color:#fff;background:var(--blue);border-radius:999px;padding:3px 13px;letter-spacing:.08em;margin-bottom:14px;}
 .qtext{font-size:21px;font-weight:700;line-height:1.85}
 .answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
-.ans{
-  border:3px solid var(--line);background:#fff;border-radius:var(--r);
-  padding:18px 8px 14px;cursor:pointer;font-family:inherit;
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  transition:transform .12s ease,border-color .2s,background .2s;
-}
+.ans{border:3px solid var(--line);background:#fff;border-radius:var(--r);padding:18px 8px 14px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:4px;transition:transform .12s ease,border-color .2s,background .2s;}
 .ans:active{transform:scale(.97)}
 .ans .glyph{width:46px;height:46px}
 .ans .label{font-size:13px;font-weight:700;color:var(--ink-soft)}
@@ -140,11 +77,7 @@ h1{font-size:clamp(27px,8vw,34px);font-weight:900;line-height:1.5;margin:18px 0 
 .recap .st.ok{color:var(--mint)}
 .recap .st.ng{color:var(--coral)}
 .actions{display:grid;gap:10px;margin-top:24px}
-.toast{
-  position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);
-  background:var(--ink);color:#fff;font-size:13px;padding:10px 20px;border-radius:999px;
-  opacity:0;pointer-events:none;transition:.25s ease;
-}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);background:var(--ink);color:#fff;font-size:13px;padding:10px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s ease;}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .screen[hidden]{display:none}
 .screen{animation:rise .38s cubic-bezier(.2,.8,.3,1) both}
@@ -164,7 +97,6 @@ footer{margin-top:30px;text-align:center;font-size:11.5px;color:var(--ink-soft);
       <button class="chip" id="resetBtn" hidden>はじめから</button>
     </div>
   </div>
-  <!-- ===== スタート ===== -->
   <section class="screen" id="screen-start">
     <span class="hero-badge">＜ダミー版＞創薬クイズ</span>
     <h1>くすりが<ruby>生<rt>う</rt></ruby>まれるまで、<br><span class="mark-line">なにが<ruby>起<rt>お</rt></ruby>きている？</span></h1>
@@ -175,7 +107,6 @@ footer{margin-top:30px;text-align:center;font-size:11.5px;color:var(--ink-soft);
     <button class="btn" id="startBtn">クイズをはじめる</button>
     <p class="meta">ぜんぶで5問・やく2分</p>
   </section>
-  <!-- ===== 出題 ===== -->
   <section class="screen" id="screen-quiz" hidden>
     <div class="pipe" id="pipe"></div>
     <div class="card">
@@ -198,7 +129,6 @@ footer{margin-top:30px;text-align:center;font-size:11.5px;color:var(--ink-soft);
       <button class="btn" id="nextBtn">つぎへ</button>
     </div>
   </section>
-  <!-- ===== 結果 ===== -->
   <section class="screen" id="screen-result" hidden>
     <div class="pipe" id="pipeResult"></div>
     <div class="card">
@@ -262,12 +192,12 @@ function drawPipe(el, cur){
     let cls = 'stage';
     if (i < results.length) cls += ' done ' + (results[i] ? 'hit' : 'miss');
     else if (i === cur) cls += ' now';
-    return \`<div class="\${cls}"><div class="dot">\${ICONS[i] || ''}</div><span>\${s}</span></div>\`;
+    return `<div class="${cls}"><div class="dot">${ICONS[i] || ''}</div><span>${s}</span></div>`;
   }).join('');
 }
 function renderQuestion(){
   const item = QUIZ[idx];
-  $('#qnum').textContent = \`Q\${idx+1} / \${QUIZ.length}\`;
+  $('#qnum').textContent = `Q${idx+1} / ${QUIZ.length}`;
   $('#qtext').innerHTML = item.q;
   $('#verdict').hidden = true;
   locked = false;
@@ -292,7 +222,7 @@ function answer(val){
   const v = $('#verdict');
   v.className = 'verdict ' + (ok ? 'ok' : 'ng');
   $('#verdictHead').innerHTML = (ok ? MARU : BATSU) + (ok ? '正解！' : 'ざんねん…');
-  $('#verdictText').innerHTML = \`こたえは <strong>\${item.a ? '○' : '×'}</strong><br>\${item.exp}\`;
+  $('#verdictText').innerHTML = `こたえは <strong>${item.a ? '○' : '×'}</strong><br>${item.exp}`;
   $('#nextBtn').textContent = (idx === QUIZ.length - 1) ? 'けっかを見る' : 'つぎへ';
   v.hidden = false;
   drawPipe($('#pipe'), idx + 1);
@@ -310,7 +240,7 @@ function showResult(){
   $('#rankTitle').textContent = rank.t;
   $('#rankNote').textContent = rank.n;
   $('#recap').innerHTML = QUIZ.map((item,i) =>
-    \`<li><span class="mk">Q\${i+1}</span><span class="st \${results[i]?'ok':'ng'}">\${results[i]?'○':'×'}</span><span>こたえ：\${item.a?'○':'×'}</span></li>\`
+    `<li><span class="mk">Q${i+1}</span><span class="st ${results[i]?'ok':'ng'}">${results[i]?'○':'×'}</span><span>こたえ：${item.a?'○':'×'}</span></li>`
   ).join('');
   drawPipe($('#pipeResult'), -1);
   show('result');
@@ -331,7 +261,7 @@ $('#rubyToggle').onclick = e => {
 $('#copyBtn').onclick = async () => {
   const score = results.filter(Boolean).length;
   const line = results.map(r => r ? '○' : '×').join('');
-  const text = \`創薬クイズ \${score}/\${QUIZ.length}\n\${line}\n\${location.href}\`;
+  const text = `創薬クイズ ${score}/${QUIZ.length}\n${line}\n${location.href}`;
   try { await navigator.clipboard.writeText(text); }
   catch { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
   const toast = $('#toast'); toast.classList.add('show');
