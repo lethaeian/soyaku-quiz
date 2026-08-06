@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>創薬クイズ — くすりができるまで</title>
+<meta name="description" content="○×でこたえる創薬クイズ。研究から薬になるまでのパイプラインをたどります。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=M+PLUS+1+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#163049;
+  --ink-soft:#5C7183;
+  --paper:#F2F8FC;
+  --card:#FFFFFF;
+  --blue:#2E7FC2;
+  --blue-deep:#1B5C97;
+  --blue-pale:#DCEBF7;
+  --mint:#3FB795;
+  --mint-pale:#E2F5EE;
+  --coral:#EE6B85;
+  --coral-pale:#FDE8ED;
+  --sun:#FFC63F;
+  --line:#D9E6F0;
+  --r:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:"Zen Maru Gothic",system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  background-image:
+    radial-gradient(520px 380px at 12% -8%, #E6F2FB 0%, rgba(230,242,251,0) 70%),
+    radial-gradient(420px 320px at 92% 4%, #FFF6DF 0%, rgba(255,246,223,0) 70%),
+    radial-gradient(600px 420px at 50% 108%, #E8F6F1 0%, rgba(232,246,241,0) 70%);
+  background-attachment:fixed;
+  min-height:100dvh;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{width:100%;max-width:480px;margin:0 auto;padding:20px 18px 56px}
+rt{font-size:.5em;font-weight:400;color:var(--ink-soft);letter-spacing:.02em}
+body.no-ruby rt{display:none}
+.eyebrow{
+  font-family:"M PLUS 1 Code",monospace;font-size:11px;font-weight:500;
+  letter-spacing:.18em;color:var(--blue);text-transform:uppercase;
+}
+.card{
+  background:var(--card);border:2px solid var(--line);border-radius:var(--r);
+  padding:22px 20px;box-shadow:0 10px 24px -18px rgba(22,48,73,.5);
+}
+.btn{
+  display:block;width:100%;border:none;border-radius:16px;cursor:pointer;
+  font-family:inherit;font-weight:700;font-size:17px;padding:16px;
+  background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue-deep);
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--blue-deep)}
+.btn.ghost{background:transparent;color:var(--blue);box-shadow:none;border:2px solid var(--blue-pale);font-size:15px;padding:13px}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px;min-height:34px}
+.chip{
+  font-family:"M PLUS 1 Code",monospace;font-size:11.5px;letter-spacing:.06em;
+  background:#fff;border:2px solid var(--line);color:var(--ink-soft);
+  border-radius:999px;padding:5px 12px;cursor:pointer;
+}
+.chip[aria-pressed="true"]{border-color:var(--blue);color:var(--blue)}
+.pipe{display:flex;align-items:flex-start;gap:0;margin:0 0 24px}
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;gap:6px}
+.stage::before{
+  content:"";position:absolute;top:19px;left:-50%;width:100%;height:3px;
+  background:var(--line);border-radius:2px;z-index:0;
+}
+.stage:first-child::before{display:none}
+.stage.done::before{background:var(--blue-pale)}
+.dot{
+  position:relative;z-index:1;width:38px;height:38px;border-radius:50%;
+  background:#fff;border:2.5px solid var(--line);color:#B7C9D6;
+  display:grid;place-items:center;transition:all .3s cubic-bezier(.34,1.4,.5,1);
+}
+.dot svg{width:20px;height:20px}
+.stage.now .dot{border-color:var(--blue);color:var(--blue);transform:scale(1.12);box-shadow:0 0 0 5px rgba(46,127,194,.13)}
+.stage.hit .dot{background:var(--mint);border-color:var(--mint);color:#fff}
+.stage.miss .dot{background:var(--coral);border-color:var(--coral);color:#fff}
+.stage span{font-size:10.5px;color:var(--ink-soft);letter-spacing:.02em;line-height:1.3;text-align:center}
+.stage.now span{color:var(--blue);font-weight:700}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;
+  border-radius:999px;padding:7px 18px;font-weight:700;font-size:15px;
+  box-shadow:0 4px 0 var(--blue-deep);
+}
+h1{font-size:clamp(27px,8vw,34px);font-weight:900;line-height:1.5;margin:18px 0 14px;letter-spacing:.01em}
+.mark-line{
+  background:linear-gradient(transparent 62%,var(--sun) 62%,var(--sun) 88%,transparent 88%);
+}
+.lead{color:var(--ink-soft);font-size:15px;margin-bottom:26px}
+.meta{font-family:"M PLUS 1 Code",monospace;font-size:12px;color:var(--ink-soft);text-align:center;margin-top:12px;letter-spacing:.08em}
+.sparkle{color:var(--sun)}
+.qnum{
+  display:inline-block;font-family:"M PLUS 1 Code",monospace;font-size:12px;font-weight:500;
+  color:#fff;background:var(--blue);border-radius:999px;padding:3px 13px;letter-spacing:.08em;margin-bottom:14px;
+}
+.qtext{font-size:21px;font-weight:700;line-height:1.85}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.ans{
+  border:3px solid var(--line);background:#fff;border-radius:var(--r);
+  padding:18px 8px 14px;cursor:pointer;font-family:inherit;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  transition:transform .12s ease,border-color .2s,background .2s;
+}
+.ans:active{transform:scale(.97)}
+.ans .glyph{width:46px;height:46px}
+.ans .label{font-size:13px;font-weight:700;color:var(--ink-soft)}
+.ans.maru{color:var(--mint)}
+.ans.batsu{color:var(--coral)}
+.ans.maru:hover{border-color:var(--mint);background:var(--mint-pale)}
+.ans.batsu:hover{border-color:var(--coral);background:var(--coral-pale)}
+.ans[disabled]{cursor:default;opacity:.4}
+.ans.is-correct{opacity:1;border-color:var(--mint);background:var(--mint-pale)}
+.ans.is-wrong{opacity:1;border-color:var(--coral);background:var(--coral-pale)}
+.verdict{margin-top:16px;border-radius:var(--r);padding:18px 18px 16px;border:2px dashed var(--line);background:#fff}
+.verdict[hidden]{display:none}
+.verdict-head{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;margin-bottom:8px}
+.verdict-head svg{width:30px;height:30px;flex:none}
+.verdict.ok .verdict-head{color:var(--mint)}
+.verdict.ng .verdict-head{color:var(--coral)}
+.verdict p{font-size:14.5px;color:var(--ink);line-height:1.9}
+.verdict .btn{margin-top:16px}
+.score{text-align:center;padding:6px 0 4px}
+.score .big{font-family:"M PLUS 1 Code",monospace;font-size:64px;font-weight:500;color:var(--blue);line-height:1}
+.score .of{font-size:16px;color:var(--ink-soft);font-family:"M PLUS 1 Code",monospace}
+.rank{font-size:23px;font-weight:900;text-align:center;margin:14px 0 6px}
+.rank-note{font-size:14.5px;color:var(--ink-soft);text-align:center}
+.recap{list-style:none;margin-top:22px;border-top:2px solid var(--line)}
+.recap li{display:flex;gap:12px;align-items:flex-start;padding:13px 2px;border-bottom:2px solid var(--line);font-size:14px}
+.recap .mk{font-family:"M PLUS 1 Code",monospace;font-weight:500;flex:none;width:38px;color:var(--ink-soft);font-size:12px}
+.recap .st{flex:none;font-weight:900;font-size:16px}
+.recap .st.ok{color:var(--mint)}
+.recap .st.ng{color:var(--coral)}
+.actions{display:grid;gap:10px;margin-top:24px}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);
+  background:var(--ink);color:#fff;font-size:13px;padding:10px 20px;border-radius:999px;
+  opacity:0;pointer-events:none;transition:.25s ease;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.screen[hidden]{display:none}
+.screen{animation:rise .38s cubic-bezier(.2,.8,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.6) rotate(-8deg)}to{opacity:1;transform:none}}
+.stamp{animation:pop .4s cubic-bezier(.34,1.5,.5,1) both}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+footer{margin-top:30px;text-align:center;font-size:11.5px;color:var(--ink-soft);font-family:"M PLUS 1 Code",monospace;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="eyebrow">SOYAKU QUIZ</span>
+    <div style="display:flex;gap:8px">
+      <button class="chip" id="rubyToggle" aria-pressed="true">ふりがな ON</button>
+      <button class="chip" id="resetBtn" hidden>はじめから</button>
+    </div>
+  </div>
+  <!-- ===== スタート ===== -->
+  <section class="screen" id="screen-start">
+    <span class="hero-badge">＜ダミー版＞創薬クイズ</span>
+    <h1>くすりが<ruby>生<rt>う</rt></ruby>まれるまで、<br><span class="mark-line">なにが<ruby>起<rt>お</rt></ruby>きている？</span></h1>
+    <p class="lead">
+      <ruby>研究<rt>けんきゅう</rt></ruby>のたねが、<ruby>実験<rt>じっけん</rt></ruby>と<ruby>試験<rt>しけん</rt></ruby>をこえて、<ruby>病院<rt>びょういん</rt></ruby>のくすりになるまで。<br>
+      ○か×でこたえながら、<ruby>5<rt>いつ</rt></ruby>つのステップをすすもう。
+    </p>
+    <button class="btn" id="startBtn">クイズをはじめる</button>
+    <p class="meta">ぜんぶで5問・やく2分</p>
+  </section>
+  <!-- ===== 出題 ===== -->
+  <section class="screen" id="screen-quiz" hidden>
+    <div class="pipe" id="pipe"></div>
+    <div class="card">
+      <span class="qnum" id="qnum">Q1 / 5</span>
+      <p class="qtext" id="qtext"></p>
+      <div class="answers">
+        <button class="ans maru" data-v="1">
+          <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"><circle cx="24" cy="24" r="17"/></svg>
+          <span class="label">まる</span>
+        </button>
+        <button class="ans batsu" data-v="0">
+          <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"><path d="M11 11 L37 37 M37 11 L11 37"/></svg>
+          <span class="label">ばつ</span>
+        </button>
+      </div>
+    </div>
+    <div class="verdict" id="verdict" hidden>
+      <div class="verdict-head" id="verdictHead"></div>
+      <p id="verdictText"></p>
+      <button class="btn" id="nextBtn">つぎへ</button>
+    </div>
+  </section>
+  <!-- ===== 結果 ===== -->
+  <section class="screen" id="screen-result" hidden>
+    <div class="pipe" id="pipeResult"></div>
+    <div class="card">
+      <p class="eyebrow" style="text-align:center">RESULT</p>
+      <div class="score"><span class="big" id="scoreNum">0</span><span class="of"> / 5</span></div>
+      <p class="rank" id="rankTitle"></p>
+      <p class="rank-note" id="rankNote"></p>
+      <ul class="recap" id="recap"></ul>
+    </div>
+    <div class="actions">
+      <button class="btn" id="copyBtn">けっかをコピーする</button>
+      <button class="btn ghost" id="againBtn">もういちど<ruby>挑戦<rt>ちょうせん</rt></ruby>する</button>
+    </div>
+  </section>
+  <footer>ダミーデータで動作中 / 内容は未検証のサンプルです</footer>
+</div>
+<div class="toast" id="toast">コピーしました</div>
+<script>
+const QUIZ = [
+  { q:'新しいくすりができるまでには、<ruby>10<rt>じゅう</rt></ruby>年いじょうかかることがある。',
+    a:true,
+    exp:'【ダミー解説】けんきゅうのスタートから、びょういんでつかわれるまでには、とても長い時間がかかると言われています。ここに出典を入れます。' },
+  { q:'くすりのもとになる<ruby>候補<rt>こうほ</rt></ruby>は、たくさんの<ruby>物質<rt>ぶっしつ</rt></ruby>の中からえらばれる。',
+    a:true,
+    exp:'【ダミー解説】多くの候補をしらべて、そのうちごくわずかがくすりになります。ここに出典を入れます。' },
+  { q:'くすりは、ぜんぶ<ruby>植物<rt>しょくぶつ</rt></ruby>からつくられている。',
+    a:false,
+    exp:'【ダミー解説】植物からできたくすりもありますが、それだけではありません。ここに出典を入れます。' },
+  { q:'<ruby>動物<rt>どうぶつ</rt></ruby>でしらべたあとに、人でたしかめる<ruby>試験<rt>しけん</rt></ruby>をおこなう。',
+    a:true,
+    exp:'【ダミー解説】人にとどけるまえに、決められた手じゅんでたしかめます。ここに出典を入れます。' },
+  { q:'くすりの<ruby>名前<rt>なまえ</rt></ruby>は、世界のどこでも一つだけである。',
+    a:false,
+    exp:'【ダミー解説】よび名は国やメーカーによってちがうことがあります。ここに出典を入れます。' },
+];
+const STAGES = ['研究','実験','試験','病院','薬に！'];
+const RANKS = [
+  { min:0, t:'きそ研究スタート', n:'まずは、たねを見つけるところから。もういちどチャレンジしてみよう。' },
+  { min:2, t:'実験室のホープ',   n:'いいペース。ここから試験のステップへ進めそう。' },
+  { min:4, t:'治験までとどいた', n:'あと少しで、くすりがびょういんへ。' },
+  { min:5, t:'新薬たんじょう！', n:'ぜんもん正解。あなたのくすりが世に出ました。' },
+];
+const ICONS = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4l4 5-4 3-4-5z"/><path d="M11 12l3 4"/><path d="M6 20h13"/><path d="M9 20a5 5 0 0 1 5-6"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v13a2.5 2.5 0 0 0 5 0V3"/><path d="M15 3v13a2.5 2.5 0 0 0 5 0V3"/><path d="M5 3h9M13 3h9"/><path d="M7 11h5M15 11h5"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2.8h6V4"/><path d="M9 10l1.6 1.6L14 8.5"/><path d="M9 16h6"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V7l8-4 8 4v14"/><path d="M12 9v5M9.5 11.5h5"/><path d="M2 21h20"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="12" height="14" rx="3"/><path d="M8 3h8v4H8z"/><path d="M12 12v5M9.5 14.5h5"/></svg>',
+];
+const MARU = '<svg class="stamp" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"><circle cx="24" cy="24" r="17"/></svg>';
+const BATSU = '<svg class="stamp" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"><path d="M11 11 L37 37 M37 11 L11 37"/></svg>';
+const $ = s => document.querySelector(s);
+let idx = 0, results = [], locked = false;
+function show(id){
+  ['start','quiz','result'].forEach(n => $('#screen-'+n).hidden = (n !== id));
+  $('#resetBtn').hidden = (id === 'start');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function drawPipe(el, cur){
+  el.innerHTML = STAGES.map((s,i) => {
+    let cls = 'stage';
+    if (i < results.length) cls += ' done ' + (results[i] ? 'hit' : 'miss');
+    else if (i === cur) cls += ' now';
+    return \`<div class="\${cls}"><div class="dot">\${ICONS[i] || ''}</div><span>\${s}</span></div>\`;
+  }).join('');
+}
+function renderQuestion(){
+  const item = QUIZ[idx];
+  $('#qnum').textContent = \`Q\${idx+1} / \${QUIZ.length}\`;
+  $('#qtext').innerHTML = item.q;
+  $('#verdict').hidden = true;
+  locked = false;
+  document.querySelectorAll('.ans').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('is-correct','is-wrong');
+  });
+  drawPipe($('#pipe'), idx);
+}
+function answer(val){
+  if (locked) return;
+  locked = true;
+  const item = QUIZ[idx];
+  const ok = (val === item.a);
+  results.push(ok);
+  document.querySelectorAll('.ans').forEach(b => {
+    b.disabled = true;
+    const v = b.dataset.v === '1';
+    if (v === item.a) b.classList.add('is-correct');
+    else if (v === val) b.classList.add('is-wrong');
+  });
+  const v = $('#verdict');
+  v.className = 'verdict ' + (ok ? 'ok' : 'ng');
+  $('#verdictHead').innerHTML = (ok ? MARU : BATSU) + (ok ? '正解！' : 'ざんねん…');
+  $('#verdictText').innerHTML = \`こたえは <strong>\${item.a ? '○' : '×'}</strong><br>\${item.exp}\`;
+  $('#nextBtn').textContent = (idx === QUIZ.length - 1) ? 'けっかを見る' : 'つぎへ';
+  v.hidden = false;
+  drawPipe($('#pipe'), idx + 1);
+  $('#nextBtn').focus({preventScroll:true});
+}
+function next(){
+  if (idx < QUIZ.length - 1){ idx++; renderQuestion(); }
+  else showResult();
+}
+function showResult(){
+  const score = results.filter(Boolean).length;
+  const rank = [...RANKS].reverse().find(r => score >= r.min) || RANKS[0];
+  $('#scoreNum').textContent = score;
+  $('.score .of').textContent = ' / ' + QUIZ.length;
+  $('#rankTitle').textContent = rank.t;
+  $('#rankNote').textContent = rank.n;
+  $('#recap').innerHTML = QUIZ.map((item,i) =>
+    \`<li><span class="mk">Q\${i+1}</span><span class="st \${results[i]?'ok':'ng'}">\${results[i]?'○':'×'}</span><span>こたえ：\${item.a?'○':'×'}</span></li>\`
+  ).join('');
+  drawPipe($('#pipeResult'), -1);
+  show('result');
+}
+function reset(){
+  idx = 0; results = []; show('start');
+}
+$('#startBtn').onclick = () => { show('quiz'); renderQuestion(); };
+$('#nextBtn').onclick = next;
+$('#againBtn').onclick = () => { idx = 0; results = []; show('quiz'); renderQuestion(); };
+$('#resetBtn').onclick = reset;
+document.querySelectorAll('.ans').forEach(b => b.onclick = () => answer(b.dataset.v === '1'));
+$('#rubyToggle').onclick = e => {
+  const on = document.body.classList.toggle('no-ruby') === false;
+  e.currentTarget.setAttribute('aria-pressed', on);
+  e.currentTarget.textContent = 'ふりがな ' + (on ? 'ON' : 'OFF');
+};
+$('#copyBtn').onclick = async () => {
+  const score = results.filter(Boolean).length;
+  const line = results.map(r => r ? '○' : '×').join('');
+  const text = \`創薬クイズ \${score}/\${QUIZ.length}\n\${line}\n\${location.href}\`;
+  try { await navigator.clipboard.writeText(text); }
+  catch { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  const toast = $('#toast'); toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1600);
+};
+document.addEventListener('keydown', e => {
+  if ($('#screen-quiz').hidden) return;
+  const k = e.key.toLowerCase();
+  if (!locked && (k === 'arrowleft' || k === 'o' || k === '1')) answer(true);
+  if (!locked && (k === 'arrowright' || k === 'x' || k === '2')) answer(false);
+  if (locked && (k === 'enter' || k === ' ')) { e.preventDefault(); next(); }
+});
+</script>
+</body>
+</html>
