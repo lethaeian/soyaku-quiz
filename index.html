@@ -157,7 +157,7 @@ footer{margin-top:28px;text-align:center;font-size:11.5px;color:var(--ink-soft);
       <div><b>LV 3</b>4択クイズ<i>難問</i></div>
     </div>
     <button class="btn" id="startBtn">レベル1からはじめる</button>
-    <p class="meta">ぜんぶで15問</p>
+    <p class="meta">ぜんぶで19問</p>
   </section>
 
   <!-- ===== 出題 ===== -->
@@ -194,14 +194,13 @@ footer{margin-top:28px;text-align:center;font-size:11.5px;color:var(--ink-soft);
     <div class="levels" id="levelsResult"></div>
     <div class="card">
       <p class="eyebrow" style="text-align:center">FINAL RESULT</p>
-      <div class="score"><span class="big" id="scoreNum">0</span><span class="of"> / 15</span></div>
+      <div class="score"><span class="big" id="scoreNum">0</span><span class="of"> / 19</span></div>
       <p class="rank" id="rankTitle"></p>
       <p class="rank-note" id="rankNote"></p>
       <ul class="recap" id="recap"></ul>
     </div>
     <div class="actions">
-      <button class="btn" id="copyBtn">けっかをコピーする</button>
-      <button class="btn ghost" id="againBtn">もういちど<ruby>挑戦<rt>ちょうせん</rt></ruby>する</button>
+      <button class="btn" id="againBtn">はじめから</button>
     </div>
     <div class="autoback">
       <p><span id="cdText">60</span> びょうで さいしょの<ruby>画面<rt>がめん</rt></ruby>にもどります</p>
@@ -210,7 +209,6 @@ footer{margin-top:28px;text-align:center;font-size:11.5px;color:var(--ink-soft);
   </section>
 
 </div>
-<div class="toast" id="toast">コピーしました</div>
 
 <script>
 /* =========================================================
@@ -231,9 +229,9 @@ const LEVELS = [
   id:1, label:'LV 1', kind:'○×クイズ', tone:'やさしい', type:'ox',
   questions:[
     { q:'新しいくすりができるまでには、<ruby>10<rt>じゅう</rt></ruby><ruby>年<rt>ねん</rt></ruby>いじょうかかることがある。', a:0,
-      exp:'新しいくすりを作るには、<ruby>研究<rt>けんきゅう</rt></ruby>から<ruby>人<rt>ひと</rt></ruby>での<ruby>試験<rt>しけん</rt></ruby>、<ruby>国<rt>くに</rt></ruby>の<ruby>審査<rt>しんさ</rt></ruby>など、たくさんのステップがあります。<ruby>日本<rt>にほん</rt></ruby>では、<ruby>新薬<rt>しんやく</rt></ruby>ができるまで<ruby>約<rt>やく</rt></ruby>9〜16<ruby>年<rt>ねん</rt></ruby>かかるといわれています。' },
+      exp:'新しいくすりを作るには、<ruby>動物<rt>どうぶつ</rt></ruby><ruby>試験<rt>しけん</rt></ruby>から<ruby>人<rt>ひと</rt></ruby>での<ruby>試験<rt>しけん</rt></ruby>、<ruby>国<rt>くに</rt></ruby>の<ruby>審査<rt>しんさ</rt></ruby>など、たくさんのステップがあります。<ruby>日本<rt>にほん</rt></ruby>では、あたらしいくすりができるまで<ruby>約<rt>やく</rt></ruby>9〜16<ruby>年<rt>ねん</rt></ruby>かかるといわれています。' },
     { q:'くすりのもとになる<ruby>候補<rt>こうほ</rt></ruby>は、たくさんの<ruby>物質<rt>ぶっしつ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>からえらばれる。', a:0,
-      exp:'くすりの候補になる物質をたくさん<ruby>調<rt>しら</rt></ruby>べて、「<ruby>病気<rt>びょうき</rt></ruby>に<ruby>効<rt>き</rt></ruby>きそうか」「<ruby>安全<rt>あんぜん</rt></ruby>そうか」などを<ruby>確<rt>たし</rt></ruby>かめます。その中から、くすりになりそうなものを<ruby>少<rt>すこ</rt></ruby>しずつ<ruby>選<rt>えら</rt></ruby>んでいきます。' },
+      exp:'くすりの候補になる物質をたくさん<ruby>調<rt>しら</rt></ruby>べて、「<ruby>病気<rt>びょうき</rt></ruby>に<ruby>効<rt>き</rt></ruby>きそうか」「<ruby>安全<rt>あんぜん</rt></ruby>そうか」などを<ruby>確<rt>たし</rt></ruby>かめます。その中から、くすりになりそうなものを<ruby>少<rt>すこ</rt></ruby>しずつ<ruby>選<rt>えら</rt></ruby>んでいきます。くすりを<ruby>開発<rt>かいはつ</rt></ruby>する<ruby>時<rt>とき</rt></ruby>の<ruby>成功<rt>せいこう</rt></ruby><ruby>確率<rt>かくりつ</rt></ruby>は、<ruby>約<rt>やく</rt></ruby>25,000<ruby>分<rt>ぶん</rt></ruby>の1といわれています。' },
     { q:'くすりは、ぜんぶ<ruby>植物<rt>しょくぶつ</rt></ruby>からつくられている。', a:1,
       exp:'くすりのもとには、植物だけでなく、<ruby>動物<rt>どうぶつ</rt></ruby>や<ruby>微生物<rt>びせいぶつ</rt></ruby>から<ruby>見<rt>み</rt></ruby>つかるものや、<ruby>化学的<rt>かがくてき</rt></ruby>につくられるものなど、いろいろなものがあります。' },
     { q:'<ruby>一<rt>ひと</rt></ruby>つの<ruby>病気<rt>びょうき</rt></ruby>に<ruby>効<rt>き</rt></ruby>くくすりはひとつだけ。', a:1,
@@ -261,6 +259,12 @@ const LEVELS = [
     { q:'シロップや<ruby>粉薬<rt>こなぐすり</rt></ruby>、<ruby>錠剤<rt>じょうざい</rt></ruby>などの<ruby>飲<rt>の</rt></ruby>み<ruby>薬<rt>ぐすり</rt></ruby>。<ruby>人<rt>ひと</rt></ruby>の<ruby>体<rt>からだ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ったあとはどこへ<ruby>向<rt>む</rt></ruby>かう？',
       opts:['全身に広がる','病気の場所まで一直線に進む','胃にたどり着いた後、動かない'], a:0,
       exp:'飲み薬は、胃や腸などから体の中に吸収されると、血液などによって全身に運ばれます。全身に運ばれた薬のうち、狙った場所に届いた薬の成分が効果を発揮して病気を治していきます。' },
+    { q:'「<ruby>水<rt>みず</rt></ruby>またはぬるま<ruby>湯<rt>ゆ</rt></ruby>で<ruby>服用<rt>ふくよう</rt></ruby>ください」と<ruby>指示<rt>しじ</rt></ruby>のある<ruby>飲<rt>の</rt></ruby>み<ruby>薬<rt>ぐすり</rt></ruby>を<ruby>牛乳<rt>ぎゅうにゅう</rt></ruby>で<ruby>飲<rt>の</rt></ruby>むとどうなる？',
+      opts:['どんな飲み薬も牛乳で飲むことで効き目は変わらない','牛乳の栄養と合わさり、効き目が良くなる','薬の吸収が悪くなり、効き目が弱くなることがある'], a:2,
+      exp:'薬によっては、牛乳に含まれるカルシウムなどのミネラルと薬が結びつくことで、消化管から吸収されにくくなることがあります。その結果、体に取り込まれる薬の量が減り、十分な効果が得られない場合があります。一方、すべての薬が牛乳の影響を受けるわけではありません。飲み物との相互作用は薬によって違うため、特別な指示がなければ、飲み薬は基本的に水またはぬるま湯で服用するのが安全です。' },
+    { q:'<ruby>新<rt>あたら</rt></ruby>しい<ruby>薬<rt>くすり</rt></ruby>が<ruby>日本<rt>にほん</rt></ruby>で<ruby>承認<rt>しょうにん</rt></ruby>された<ruby>直後<rt>ちょくご</rt></ruby>、<ruby>薬<rt>くすり</rt></ruby>として<ruby>販売<rt>はんばい</rt></ruby>できる<ruby>国<rt>くに</rt></ruby>はどこ？',
+      opts:['日本だけ','アジア圏','世界中'], a:0,
+      exp:'薬の承認は、基本的に国や地域ごとに行われます。日本で承認されたからといって、そのまま諸外国で販売できるわけではありません。世界中の患者さんに新しい薬を届けるには、それぞれの国・地域の制度に沿って承認を取得していく必要があります。' },
   ],
   clear:{ t:'レベル2 クリア！', n:'創薬のながれをつかめました。最後は4択の難問です。' }
 },
@@ -284,18 +288,31 @@ const LEVELS = [
     { q:'成功率が低い新薬開発。理研では創薬シーズ探索を効率化して、成功率の向上をめざしている。具体的にはどのような取組をしている？',
       opts:['AIとシミュレーション技術を使って創薬シーズ探索方法を効率化している','スーパーコンピュータ「富岳」を活用して創薬シーズ探索にかかる時間を短縮している','国内外の大学、病院、創薬企業と協力して知識やノウハウなどを共有している','全部'], a:3,
       exp:'新薬開発では、研究の初期段階で多くの候補物質の中から、薬になりそうな「創薬シーズ」を見つけることが重要です。AIによるデータ解析、ロボットを使った自動実験、スーパーコンピュータによる計算などを活用し、化合物の構造や過去の研究データなどから、大量の化合物や生体分子の情報を効率的に調べる研究が進められています。また、これらの研究に伴う膨大な計算を、スーパーコンピュータ「富岳」等を使って迅速に処理します。こうした技術によって、研究者が一つ一つ手作業で調べるよりも、有望な候補を効率よく絞り込める可能性があります。AIを使った予測・シミュレーション技術開発には、大量の研究データや臨床データが不可欠です。理研では、大学、病院及び創薬企業等と共同研究を行い、これらのデータを研究に活かしています。' },
+    { q:'特定の薬を服用していると、避けたほうがよい食品があります。たとえば一部の血圧を下げる薬では、グレープフルーツを避けるよう指示されることがあります。その主な理由は？',
+      opts:['グレープフルーツの成分が薬を胃の中で分解してしまうから','グレープフルーツの成分が薬を分解する酵素の働きを妨げるから','グレープフルーツの成分が血液を固まりやすくしてしまうから','グレープフルーツの酸で薬の成分がすべて無効になるから'], a:1,
+      exp:'グレープフルーツに含まれる成分は、薬の代謝に関わる酵素の働きを阻害することがあります。その結果、一部の薬では分解されにくくなって血液中の薬の濃度が上がり、作用が強くなったり、副作用が出やすくなったりすることがあります。たとえばカルシウム拮抗薬と呼ばれるタイプの血圧の薬では、グレープフルーツによって薬の血中濃度が上昇し、血圧が下がりすぎるおそれがあります。' },
+    { q:'新しい薬に関する発明は、特許によって一定期間守られます。日本では、特許権の期間は原則としていつから何年間でしょう？',
+      opts:['薬が発売されてから10年間','薬が承認されてから20年間','特許を出願してから20年間','薬が発売されてから30年間'], a:2,
+      exp:'日本では、特許権の存続期間は原則として特許出願の日から20年間です。ただし、新薬は特許を出願してから、研究、非臨床試験、臨床試験、国の審査などに長い時間がかかります。その間は薬を販売できないため、実際に新薬を販売できる頃には、20年のうちかなりの期間が経過している場合があります。医薬品などでは、承認を得るために特許発明を実施できなかった期間について、一定の条件のもとで最長5年間、特許期間を延長できる制度があります。' },
   ],
   clear:{ t:'ぜんレベル制覇！', n:'ここまでたどりつきました。' }
 },
 ];
 
-const STAGES = ['研究','実験','試験','病院','薬に！'];
+// 問題数ごとの進み具合表示（ラベルとアイコン番号）
+const STAGE_SETS = {
+  5: { labels:['研究','実験','試験','病院','薬に！'], icons:[0,1,2,3,4] },
+  7: { labels:['研究','実験','動物試験','治験','審査','病院','薬に！'], icons:[0,1,5,2,6,3,4] },
+};
+function stagesFor(n){
+  return STAGE_SETS[n] || { labels:Array.from({length:n},(_,i)=>i===n-1?'薬に！':''), icons:Array.from({length:n},(_,i)=>i===n-1?4:-1) };
+}
 const RANKS = [
   { min:0,  t:'きそ研究スタート', n:'まずは、たねを見つけるところから。もういちどチャレンジ！' },
-  { min:6,  t:'実験室のホープ',   n:'いいペース。ここから試験のステップへ進めそう。' },
-  { min:10, t:'治験までとどいた', n:'あと少しで、くすりがびょういんへ。' },
-  { min:13, t:'新薬たんじょう！', n:'ほぼ完璧。あなたのくすりが世に出ました。' },
-  { min:15, t:'創薬マスター',     n:'全問正解。研究から承認まで、道すじを完全に理解！' },
+  { min:8,  t:'実験室のホープ',   n:'いいペース。ここから試験のステップへ進めそう。' },
+  { min:13, t:'治験までとどいた', n:'あと少しで、くすりがびょういんへ。' },
+  { min:17, t:'新薬たんじょう！', n:'ほぼ完璧。あなたのくすりが世に出ました。' },
+  { min:19, t:'創薬マスター',     n:'全問正解。研究から承認まで、道すじを完全に理解！' },
 ];
 
 /* ========================================================= */
@@ -304,7 +321,9 @@ const ICONS=[
 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v13a2.5 2.5 0 0 0 5 0V3"/><path d="M15 3v13a2.5 2.5 0 0 0 5 0V3"/><path d="M5 3h9M13 3h9"/><path d="M7 11h5M15 11h5"/></svg>',
 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2.8h6V4"/><path d="M9 10l1.6 1.6L14 8.5"/><path d="M9 16h6"/></svg>',
 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V7l8-4 8 4v14"/><path d="M12 9v5M9.5 11.5h5"/><path d="M2 21h20"/></svg>',
-'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="12" height="14" rx="3"/><path d="M8 3h8v4H8z"/><path d="M12 12v5M9.5 14.5h5"/></svg>'];
+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="12" height="14" rx="3"/><path d="M8 3h8v4H8z"/><path d="M12 12v5M9.5 14.5h5"/></svg>',
+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="10" r="1.8"/><circle cx="9" cy="5.5" r="1.8"/><circle cx="15" cy="5.5" r="1.8"/><circle cx="19" cy="10" r="1.8"/><path d="M12 12c-3 0-6 4-6 6.5 0 1.5 1.2 2.5 2.7 2.5 1.2 0 2.1-.6 3.3-.6s2.1.6 3.3.6c1.5 0 2.7-1 2.7-2.5C18 16 15 12 12 12z"/></svg>',
+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><circle cx="12" cy="15" r="3"/></svg>'];
 const MARU='<svg class="stamp" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"><circle cx="24" cy="24" r="17"/></svg>';
 const BATSU='<svg class="stamp" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"><path d="M11 11 L37 37 M37 11 L11 37"/></svg>';
 const KEYS=['A','B','C','D'];
@@ -332,12 +351,12 @@ function drawLevels(el, mode){
 }
 
 function drawPipe(cur){
-  const r=results[lv];
-  $('#pipe').innerHTML=STAGES.map((s,i)=>{
+  const r=results[lv], st=stagesFor(LEVELS[lv].questions.length);
+  $('#pipe').innerHTML=st.labels.map((s,i)=>{
     let cls='stage';
     if(i<r.length) cls+=' done '+(r[i]?'hit':'miss');
     else if(i===cur) cls+=' now';
-    return `<div class="${cls}"><div class="dot">${ICONS[i]||''}</div><span>${s}</span></div>`;
+    return `<div class="${cls}"><div class="dot">${ICONS[st.icons[i]]||''}</div><span>${s}</span></div>`;
   }).join('');
 }
 
@@ -460,23 +479,13 @@ function restart(){ stopCountdown(); lv=0; idx=0; results=LEVELS.map(()=>[]); sh
 $('#startBtn').onclick=()=>{ show('quiz'); renderQuestion(); };
 $('#nextBtn').onclick=next;
 $('#nextLevelBtn').onclick=()=>{ lv++; idx=0; show('quiz'); renderQuestion(); };
-$('#againBtn').onclick=restart;
+$('#againBtn').onclick=reset;
 $('#resetBtn').onclick=reset;
 
 $('#rubyToggle').onclick=e=>{
   const on=document.body.classList.toggle('no-ruby')===false;
   e.currentTarget.setAttribute('aria-pressed',on);
   e.currentTarget.textContent='ふりがな '+(on?'ON':'OFF');
-};
-
-$('#copyBtn').onclick=async()=>{
-  const score=results.flat().filter(Boolean).length;
-  const lines=LEVELS.map((L,i)=>`${L.label} ${results[i].map(r=>r?'○':'×').join('')}`).join('\n');
-  const text=`創薬クイズ ${score}/${total}\n${lines}\n${location.href}`;
-  try{ await navigator.clipboard.writeText(text); }
-  catch{ const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
-  const toast=$('#toast'); toast.classList.add('show');
-  setTimeout(()=>toast.classList.remove('show'),1600);
 };
 
 document.addEventListener('keydown',e=>{
